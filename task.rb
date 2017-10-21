@@ -27,12 +27,26 @@ class Task
 		@@tasks.delete_at(index)
 	end
 
+	def self.delete_all
+		@@tasks.clear 
+	end
+
+
 
 end
 
-Task.create("buy milk")
-Task.create("take out trash")
+Task.create("task0")
+Task.create("task1")
+Task.create("task2") 
 Task.show_all
-puts "\n"
-Task.delete(0)
+puts "delete all..."
+Task.delete_all
+puts "deleted all"
 Task.show_all
+Task.create("task0")
+Task.show_all
+# input=''
+# until input == 'exit'
+# 	print "Command: "
+# 	input = gets.chomp
+# end
