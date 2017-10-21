@@ -13,14 +13,13 @@ class Task
 		@@tasks << Task.new(name)
 	end
 
-	def self.show_all
-		@@tasks.each do|x|
-			puts "#{x.name}"
-		end
+	def self.show_one(index)
+		puts "#{index}: #{@@tasks[index].name}" 
 	end
 
 end
 
-Task.create("test task")
-Task.create("another test task")
-Task.show_all
+Task.create("buy milk")
+Task.show_one(0)
+Task.create("take out trash")
+Task.show_one(1)
