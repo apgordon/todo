@@ -19,16 +19,20 @@ class Task
 
 	def self.show_all
 		@@tasks.each_with_index do |i, index|
-			puts "Index: #{index}, Name: #{@@tasks[index].name}"
+			puts "#{index}: #{@@tasks[index].name}"
 		end
+	end
+
+	def self.delete(index)
+		@@tasks.delete_at(index)
 	end
 
 
 end
 
 Task.create("buy milk")
-Task.show_one(0)
 Task.create("take out trash")
-Task.show_one(1)
-puts "\n\n"
+Task.show_all
+puts "\n"
+Task.delete(0)
 Task.show_all
