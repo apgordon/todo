@@ -1,6 +1,7 @@
 class Task
 
 	@@incomplete_tasks = []
+	@@completed_tasks = []
 	@@deleted_tasks = []
 
 	attr_accessor :name
@@ -20,8 +21,12 @@ class Task
 	end
 
 	def self.list_all
-		@@incomplete_tasks.each_with_index do |i, index|
-			puts "#{index}: #{@@incomplete_tasks[index].name}"
+		if @@incomplete_tasks.count == 0
+			puts "No tasks here."
+		else
+			@@incomplete_tasks.each_with_index do |i, index|
+				puts "#{index}: #{@@incomplete_tasks[index].name}"
+			end
 		end
 	end
 
@@ -31,12 +36,25 @@ class Task
 		end
 	end
 
+	def self.list_completed_all
+		@@completed_tasks.each_with_index do |i, index|
+			puts "#{index}: #{@@completed_tasks[index].name}"
+		end
+	end
+
 	def self.delete
 		print "Delete which task? "
 		index = gets.chomp.to_i
 		@@deleted_tasks << @@incomplete_tasks[index]
 		@@incomplete_tasks.delete_at(index)
 		p @@deleted_tasks
+	end
+
+	def self.complete
+		print "Complete which task? "
+		index = gets.chomp.to_i
+		@@completed_tasks << @@incomplete_tasks[index]
+		@@incomplete_tasks.delete_at(index)
 	end
 
 	def self.delete_all
@@ -59,6 +77,10 @@ loop do
 		Task.list_deleted_all
 	when "delete"
 		Task.delete
+	when "complete"
+		Task.complete
+	when "list completed"
+		Task.list_completed_all
 	end
 print "\n"
 end
