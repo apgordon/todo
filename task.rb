@@ -8,16 +8,17 @@ class Task
 		@name = name
 	end
 
-
-	def self.create(name)
+	def self.create
+		print "Task name: "
+		name = gets.chomp
 		@@tasks << Task.new(name)
 	end
 
 	def self.show_one(index)
-		puts "#{index}: #{@@tasks[index].name}" 
+		puts "#{index}: #{@@tasks[index].name}"
 	end
 
-	def self.show_all
+	def self.list_all
 		@@tasks.each_with_index do |i, index|
 			puts "#{index}: #{@@tasks[index].name}"
 		end
@@ -28,25 +29,22 @@ class Task
 	end
 
 	def self.delete_all
-		@@tasks.clear 
+		@@tasks.clear
 	end
-
-
 
 end
 
-Task.create("task0")
-Task.create("task1")
-Task.create("task2") 
-Task.show_all
-puts "delete all..."
-Task.delete_all
-puts "deleted all"
-Task.show_all
-Task.create("task0")
-Task.show_all
-# input=''
-# until input == 'exit'
-# 	print "Command: "
-# 	input = gets.chomp
-# end
+loop do
+	print "Command: "
+	input = gets.downcase.chomp
+	case input
+	when "exit"
+		break
+	when "create"
+		Task.create
+		print "\n"
+	when "list"
+		Task.list_all
+		print "\n"
+	end
+end
