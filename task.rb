@@ -1,6 +1,7 @@
 class Task
 
-	@@tasks = []
+	@@incomplete_tasks = []
+	@@deleted_tasks = []
 
 	attr_accessor :name
 
@@ -11,27 +12,35 @@ class Task
 	def self.create
 		print "Task name: "
 		name = gets.chomp
-		@@tasks << Task.new(name)
+		@@incomplete_tasks << Task.new(name)
 	end
 
 	def self.show_one(index)
-		puts "#{index}: #{@@tasks[index].name}"
+		puts "#{index}: #{@@incomplete_tasks[index].name}"
 	end
 
 	def self.list_all
-		@@tasks.each_with_index do |i, index|
-			puts "#{index}: #{@@tasks[index].name}"
+		@@incomplete_tasks.each_with_index do |i, index|
+			puts "#{index}: #{@@incomplete_tasks[index].name}"
+		end
+	end
+
+	def self.list_deleted_all
+		@@deleted_tasks.each_with_index do |i, index|
+			puts "#{index}: #{@@deleted_tasks[index].name}"
 		end
 	end
 
 	def self.delete
 		print "Delete which task? "
 		index = gets.chomp.to_i
-		@@tasks.delete_at(index)
+		@@deleted_tasks << @@incomplete_tasks[index]
+		@@incomplete_tasks.delete_at(index)
+		p @@deleted_tasks
 	end
 
 	def self.delete_all
-		@@tasks.clear
+		@@incomplete_tasks.clear
 	end
 
 end
@@ -44,12 +53,12 @@ loop do
 		break
 	when "create"
 		Task.create
-		print "\n"
 	when "list"
 		Task.list_all
-		print "\n"
+	when "list deleted"
+		Task.list_deleted_all
 	when "delete"
 		Task.delete
-		print "\n"
 	end
+print "\n"
 end
