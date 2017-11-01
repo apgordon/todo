@@ -24,7 +24,9 @@ class Task
 		end
 	end
 
-	def self.delete(index)
+	def self.delete
+		print "Delete which task? "
+		index = gets.chomp.to_i
 		@@tasks.delete_at(index)
 	end
 
@@ -45,6 +47,9 @@ loop do
 		print "\n"
 	when "list"
 		Task.list_all
+		print "\n"
+	when "delete"
+		Task.delete
 		print "\n"
 	end
 end
