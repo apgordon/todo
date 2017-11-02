@@ -64,11 +64,18 @@ end
 loop do
 	print "Command: "
 	input = gets.chomp.split(" ")
-	p input
 
 	if input[0].downcase == 'create'
-		name = input.drop(1).join(" ")
+		if input.count == 1
+			print "Task name: "
+			name = gets.chomp
+		else
+			name = input.drop(1).join(" ")
+		end
 		Task.create(name)
+
+	elsif input[0].downcase == 'list'
+		Task.list_all
 	end
 
 	# case input
