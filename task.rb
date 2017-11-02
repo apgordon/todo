@@ -12,6 +12,7 @@ class Task
 
 	def self.create(name)
 		@@incomplete_tasks << Task.new(name)
+		puts "Task added."
 	end
 
 	def self.show_one(index)
@@ -48,9 +49,7 @@ class Task
 		p @@deleted_tasks
 	end
 
-	def self.complete
-		print "Complete which task? "
-		index = gets.chomp.to_i
+	def self.complete(index)
 		@@completed_tasks << @@incomplete_tasks[index]
 		@@incomplete_tasks.delete_at(index)
 	end
@@ -76,23 +75,25 @@ loop do
 
 	elsif input[0].downcase == 'list'
 		Task.list_all
+
+	elsif input[0].downcase == 'delete'
+		Task.delete
+
+	elsif input[0].downcase == 'complete'
+		if input.count == 1
+			print "Complete which task? "
+			index = gets.chomp.to_i
+		else
+			index = input[1].to_i
+		end
+		Task.complete(index)
+
+	elsif input[0].downcase == 'exit'
+		break
+
+	else
+		puts "Unknown command entered."
 	end
 
-	# case input
-	# when "exit"
-	# 	break
-	# when "create"
-	# 	Task.create
-	# when "list"
-	# 	Task.list_all
-	# when "list deleted"
-	# 	Task.list_deleted_all
-	# when "delete"
-	# 	Task.delete
-	# when "complete"
-	# 	Task.complete
-	# when "list completed"
-	# 	Task.list_completed_all
-	# end
 print "\n"
 end
