@@ -10,9 +10,7 @@ class Task
 		@name = name
 	end
 
-	def self.create
-		print "Task name: "
-		name = gets.chomp
+	def self.create(name)
 		@@incomplete_tasks << Task.new(name)
 	end
 
@@ -65,22 +63,29 @@ end
 
 loop do
 	print "Command: "
-	input = gets.downcase.chomp
-	case input
-	when "exit"
-		break
-	when "create"
-		Task.create
-	when "list"
-		Task.list_all
-	when "list deleted"
-		Task.list_deleted_all
-	when "delete"
-		Task.delete
-	when "complete"
-		Task.complete
-	when "list completed"
-		Task.list_completed_all
+	input = gets.chomp.split(" ")
+	p input
+
+	if input[0].downcase == 'create'
+		name = input.drop(1).join(" ")
+		Task.create(name)
 	end
+
+	# case input
+	# when "exit"
+	# 	break
+	# when "create"
+	# 	Task.create
+	# when "list"
+	# 	Task.list_all
+	# when "list deleted"
+	# 	Task.list_deleted_all
+	# when "delete"
+	# 	Task.delete
+	# when "complete"
+	# 	Task.complete
+	# when "list completed"
+	# 	Task.list_completed_all
+	# end
 print "\n"
 end
