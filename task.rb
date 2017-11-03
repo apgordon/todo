@@ -4,15 +4,20 @@ class Task
 	@@completed_tasks = []
 	@@deleted_tasks = []
 
-	attr_accessor :name
+	attr_accessor :name, :added
 
 	def initialize(name)
 		@name = name
+		@added = Time.now
 	end
 
 	def self.create(name)
 		@@incomplete_tasks << Task.new(name)
 		puts "Task added."
+		#should call sort method to properly sort
+	end
+
+	def self.sort
 	end
 
 	def self.show_one(index)
@@ -26,6 +31,16 @@ class Task
 			@@incomplete_tasks.each_with_index do |i, index|
 				puts "#{index}: #{@@incomplete_tasks[index].name}"
 			end
+		end
+	end
+
+	def self.set_sort(type)
+		if type == 'name'
+			@@incomplete_tasks.sort_by!{|obj| obj.name}
+			puts "Tasks sorted by name."
+		elsif type == 'added'
+			@@incomplete_tasks.sort_by!{|obj| obj.added}
+			puts "Tasks sorted by added date"
 		end
 	end
 
@@ -58,7 +73,14 @@ class Task
 		@@incomplete_tasks.clear
 	end
 
+	def self.unknown_command
+		puts "Unknown command entered."
+	end
+
 end
+
+Task.create("some task")
+Task.create("another task")
 
 loop do
 	print "Command: "
@@ -88,11 +110,17 @@ loop do
 		end
 		Task.complete(index)
 
+	elsif input[0].downcase == 'set'
+			if input[1].downcase == 'sort'
+				Task.set_sort(input[2])
+			end
+			#need a rescue here in case input after set doesn't match if
+
 	elsif input[0].downcase == 'exit'
 		break
 
 	else
-		puts "Unknown command entered."
+		Task.unknown_command
 	end
 
 print "\n"
