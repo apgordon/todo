@@ -3,6 +3,7 @@ class Task
 	@@incomplete_tasks = []
 	@@completed_tasks = []
 	@@deleted_tasks = []
+	@@sort_type = 'added'
 
 	attr_accessor :name, :added
 
@@ -17,9 +18,6 @@ class Task
 		#should call sort method to properly sort
 	end
 
-	def self.sort
-	end
-
 	def self.show_one(index)
 		puts "#{index}: #{@@incomplete_tasks[index].name}"
 	end
@@ -28,6 +26,11 @@ class Task
 		if @@incomplete_tasks.count == 0
 			puts "No tasks here."
 		else
+			if @@sort_type == 'name'
+				@@incomplete_tasks.sort_by!{|obj| obj.name}
+			elsif @@sort_type == 'added'
+				@@incomplete_tasks.sort_by!{|obj| obj.added}
+			end
 			@@incomplete_tasks.each_with_index do |i, index|
 				puts "#{index}: #{@@incomplete_tasks[index].name}"
 			end
@@ -35,11 +38,10 @@ class Task
 	end
 
 	def self.set_sort(type)
-		if type == 'name'
-			@@incomplete_tasks.sort_by!{|obj| obj.name}
+		@@sort_type = type
+		if @@sort_type == 'name'
 			puts "Tasks sorted by name."
-		elsif type == 'added'
-			@@incomplete_tasks.sort_by!{|obj| obj.added}
+		elsif @@sort_type == 'added'
 			puts "Tasks sorted by added date"
 		end
 	end
@@ -79,9 +81,6 @@ class Task
 
 end
 
-Task.create("some task")
-Task.create("another task")
-
 loop do
 	print "Command: "
 	input = gets.chomp.split(" ")
@@ -118,6 +117,14 @@ loop do
 
 	elsif input[0].downcase == 'exit'
 		break
+
+	elsif input[0].downcase == 'help'
+		puts "Available Commands:"
+		puts "- create [task]"
+		puts "- list"
+		puts "- complete [index number]"
+		puts "- delete [index number]"
+		puts "- set sort [added, name]"
 
 	else
 		Task.unknown_command
